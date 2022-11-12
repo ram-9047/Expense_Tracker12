@@ -24,6 +24,9 @@ form.addEventListener("submit", async (event) => {
     } else if (res.status == 201) {
       alert("Email already exist, try forget password");
       window.location.href = "./signup.html";
+    } else {
+      alert("incorect credentials");
+      window.location.href = "./signup.html";
     }
   } else if (userName == "") {
     alert("Name is not avail");

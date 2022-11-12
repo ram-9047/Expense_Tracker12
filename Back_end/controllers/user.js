@@ -1,20 +1,26 @@
 const User = require("../models/user.js");
-const bcrypt = require("bcrypt");
-const saltRounds = 10;
-const token = require("jsonwebtoken");
+const bycrypt = require("bcrypt");
+let saltRound = 10;
 
-exports.signup = (req, res, next) => {
+exports.signup = async (req, res, next) => {
   // console.log(req.body);
-  // let { name, email, password } = req.body;
-  // bcrypt
-  //   .hash(password, saltRounds)
-  //   .then(function hashPassword(hash) {
-  //     return User.create({ name, email, password: hash });
-  //   })
-  //   .then((user) => {
-  //     console.log(user, "user is successfully created");
-  //   })
-  //   .catch(function failure(error) {
-  //     console.log(error, "error in creating user diring signup");
-  //   });
+  // let { userName, email, password } = req.body;
+  let userName = req.body.userName;
+  let email = req.body.email;
+  let password = req.body.password;
+  // console.log(userName, email, password);
+  try {
+    await User.create({
+      name: userName,
+      email: email,
+      password: password,
+    });
+    res.status(200).json({ message: "User Created" });
+  } catch (error) {
+    // console.log(error);
+    if (error.errors[0]["message"] == "email must be unique") {
+      res.status(201).json({ message: "Email Must be unique" });
+    }
+  }
+  // console.log(user, " user created");
 };

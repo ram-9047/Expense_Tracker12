@@ -18,6 +18,8 @@ app.use(userRoutes);
 const port = 3000;
 
 sequelize
+
+  // .sync({ force: true })
   .sync()
   .then(() => {
     console.log("db connected");

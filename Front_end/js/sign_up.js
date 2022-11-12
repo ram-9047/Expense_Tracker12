@@ -1,4 +1,4 @@
-const form = document.getElementById("form");
+const form = document.getElementById("signup_form");
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
@@ -8,9 +8,10 @@ form.addEventListener("submit", async (event) => {
   let userName = document.getElementById("userName").value;
   let email = document.getElementById("email").value;
   let password = document.getElementById("password").value;
-  // console.log(userName, email, password);
+  console.log(userName, email, password);
 
   if (userName && email && password) {
+    // console.log("response");
     let res = await axios.post("http://localhost:3000/signup", {
       userName,
       email,
@@ -18,6 +19,12 @@ form.addEventListener("submit", async (event) => {
     });
 
     console.log(res, "this is response from backend");
+    if (res.status == 200) {
+      window.location.href = "./login.html";
+    } else if (res.status == 201) {
+      alert("Email already exist, try forget password");
+      window.location.href = "./signup.html";
+    }
   } else if (userName == "") {
     alert("Name is not avail");
   } else if (email == "") {
@@ -25,8 +32,4 @@ form.addEventListener("submit", async (event) => {
   } else if (password == "") {
     alert("Kindly Fill the password");
   }
-
-  //sending the post request to the server with user cred.
-
-  console.log(res);
 });

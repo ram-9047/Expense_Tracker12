@@ -7,7 +7,6 @@ form.addEventListener("submit", async (e) => {
   let email = document.getElementById("email").value;
   let password = document.getElementById("password").value;
 
-  // console.log(email, password);
   if (email && password) {
     try {
       let res = await axios.post("http://localhost:3000/login", {

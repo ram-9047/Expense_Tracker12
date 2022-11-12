@@ -27,19 +27,25 @@ exports.signup = async (req, res, next) => {
 };
 
 exports.login = async (req, res, next) => {
-  // console.log(req.body, "login in credentials");
   let email = req.body.email;
   let password = req.body.password;
 
   User.findAll({ where: { email } })
     .then((user) => {
-      console.log(user);
+      // console.log(user);
+
+      // CASE 1 -  user found , correct credentails
       if (user.length > 0 && user[0]["password"] == password) {
         res.status(200).json({ message: "User Found" });
-        console.log("matched found");
-      } else if (user.length > 0 && user[0]["password"] != password) {
+      }
+
+      // user found but wrong password
+      else if (user.length > 0 && user[0]["password"] != password) {
         res.status(401).json({ message: "Wrong Password" });
-      } else {
+      }
+
+      // user not found
+      else {
         res.status(404).json({ message: "User Not Found" });
       }
     })

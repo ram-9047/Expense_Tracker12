@@ -4,27 +4,27 @@ const Expense = require("../models/expense.js");
 
 exports.addExpense = (req, res, next) => {
   //   console.log(req.headers.token);
+  //   console.log(req.user, "user id in controller");
   const amount = req.body.amount;
   const category = req.body.category;
   const description = req.body.description;
-  Expense.create({ amount, description, category })
-    .then((expense) => {
+  req.user
+    .createExpense({ amount, description, category })
+    .then((result) => {
       res
         .status(201)
-        .json({ expense, success: true, message: "expense created" });
+        .json({ result, success: true, message: "Exepnse Created" });
     })
     .catch((err) => {
-      console.log(err, "error in creating expense");
-      return res
-        .status(403)
-        .json({ success: false, message: "Expense not creted" });
+      console.leg(err);
     });
 };
 
-// Get all Expense
+// Get all Expense of user
 
 exports.getExpense = (req, res, next) => {
-  Expense.findAll()
+  //   console.log(req.user.id);
+  Expense.findAll({ where: { userId: req.user.id } })
     .then((result) => {
       return res.status(200).json({ result, success: true });
     })

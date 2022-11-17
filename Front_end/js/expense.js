@@ -24,9 +24,12 @@ form.addEventListener("submit", async (e) => {
     amount.value = "";
     description.value = "";
     category.value = "";
+    let token = localStorage.getItem("token");
+    console.log(token);
     let res = await axios.post(
       "http://localhost:3000/addExpense",
-      resultObject
+      resultObject,
+      { Headers: { Authorization: token } }
     );
     console.log(res);
   }

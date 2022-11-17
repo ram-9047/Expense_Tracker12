@@ -16,6 +16,9 @@ form.addEventListener("submit", async (e) => {
       // console.log(res, "response form backend");
       if (res.status == 200) {
         console.log("200");
+        let token = res.data.token;
+        // console.log(token);
+        localStorage.setItem("token", `${token}`);
         window.location.href = "./expense.html";
       }
     } catch (error) {

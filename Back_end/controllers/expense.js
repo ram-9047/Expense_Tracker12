@@ -23,7 +23,7 @@ exports.addExpense = (req, res, next) => {
 // Get all Expense of user
 
 exports.getExpense = (req, res, next) => {
-  //   console.log(req.user.id);
+  // console.log(req.user.id);
   Expense.findAll({ where: { userId: req.user.id } })
     .then((result) => {
       return res.status(200).json({ result, success: true });
@@ -47,4 +47,9 @@ exports.deleteExpense = (req, res, next) => {
       console.log(err);
       return res.status(403).json({ success: false, message: "Failed" });
     });
+};
+
+exports.isPremium = (req, res, next) => {
+  console.log(req.user.isPremium, "this is user");
+  res.status(200).json({ success: true, status: req.user.isPremium });
 };

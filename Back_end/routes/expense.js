@@ -16,4 +16,7 @@ router.post(
   expenseController.deleteExpense
 );
 
+// user is premium or not
+router.get("/checkStatus", auth.authenticate, expenseController.isPremium);
+
 module.exports = router;

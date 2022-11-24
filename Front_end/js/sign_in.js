@@ -1,6 +1,6 @@
-const form = document.getElementById("login-form");
+const form1 = document.getElementById("login-form");
 
-form.addEventListener("submit", async (e) => {
+form1.addEventListener("submit", async (e) => {
   e.preventDefault();
   //getting the input value of login form
 
@@ -13,12 +13,15 @@ form.addEventListener("submit", async (e) => {
         email,
         password,
       });
-      // console.log(res, "response form backend");
+      // console.log(res.data.user[0].isPremium, "response form backend");
       if (res.status == 200) {
-        console.log("200");
+        // console.log("200");
         let token = res.data.token;
-        // console.log(token);
+        console.log(token);
         localStorage.setItem("token", `${token}`);
+        // if (res.data.user[0].isPremium == true) {
+        //   alert("User is premium");
+        // }
         window.location.href = "./expense.html";
       }
     } catch (error) {

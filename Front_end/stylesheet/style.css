@@ -10,6 +10,7 @@ body {
     rgba(118, 54, 252, 1) 57%
   );
 }
+
 .container {
   margin-top: 6rem;
   align-items: center;
@@ -128,6 +129,36 @@ body {
 
 /* ***************************---------------------************** */
 /* --------------------expense css-------------------------- */
+
+.premiumTheme {
+  background: black;
+  color: black;
+  font-family: "Comfortaa", cursive;
+  min-height: 100vh;
+  /* background: rgb(54, 133, 252);
+  background: linear-gradient(
+    40deg,
+    rgba(54, 133, 252, 1) 11%,
+    rgba(118, 54, 252, 1) 57%
+  ); */
+}
+.hidden {
+  visibility: hidden;
+}
+.expense-header button {
+  margin-left: 75rem;
+  margin-top: 0.2rem;
+  padding: 0.5rem 2.5rem;
+  font-size: 1.2rem;
+  cursor: pointer;
+  border-radius: 10px;
+  border: 1px solid springgreen;
+}
+
+.expense-header button:hover {
+  background: rgb(54, 133, 252);
+  color: white;
+}
 .add-expense-card h2 {
   font-size: 2.8rem;
   text-align: center;
@@ -205,4 +236,24 @@ body {
 .expense-items-card-items h2,
 .expense-items-card-items div {
   padding: 0 1.2rem;
+}
+
+.expense-items-card-items button {
+  background: transparent;
+  margin-left: 1.2rem;
+  border: 1px solid black;
+  padding: 0.2rem 1rem;
+  font-size: 1.2rem;
+  border-radius: 5px;
+}
+
+.expense-items-card-items button:hover {
+  background: red;
+  border: 1px solid #35339a;
+  color: white;
+}
+
+.footer {
+  font-size: 1.2rem;
+  margin-left: 42rem;
 }

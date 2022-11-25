@@ -135,12 +135,6 @@ body {
   color: black;
   font-family: "Comfortaa", cursive;
   min-height: 100vh;
-  /* background: rgb(54, 133, 252);
-  background: linear-gradient(
-    40deg,
-    rgba(54, 133, 252, 1) 11%,
-    rgba(118, 54, 252, 1) 57%
-  ); */
 }
 .hidden {
   visibility: hidden;
@@ -256,4 +250,90 @@ body {
 .footer {
   font-size: 1.2rem;
   margin-left: 42rem;
+}
+.expense-card-body {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.user-list {
+  /* border: 1px solid white; */
+  color: white;
+  margin-left: 6rem;
+  width: 8rem;
+  text-align: center;
+}
+.user-list h4 {
+  margin-bottom: 0.8rem;
+}
+.user-list li {
+  padding: 0.8rem 0;
+  /* border: 1px solid red; */
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.user-list li:hover {
+  /* background-color: #35339a; */
+  background-color: white;
+  color: black;
+}
+
+.hidden-id {
+  visibility: hidden;
+}
+
+.main-body {
+  position: fixed;
+}
+#expense-anotherUser-card {
+  position: relative;
+  z-index: 2;
+  width: 40rem;
+  height: 25rem;
+  background: rgb(101, 170, 210);
+  margin-left: 25rem;
+  margin-top: 10rem;
+  border-radius: 10px;
+  visibility: hidden;
+}
+
+.show-card {
+  visibility: visible;
+}
+
+.expense-items-card-items-premium {
+  border: 1px solid white;
+  border-radius: 12px;
+  width: 40rem;
+  display: flex;
+  background-color: white;
+  padding: 1rem 1.2rem;
+  margin-top: 0.8rem;
+  margin-bottom: 0.8rem;
+}
+.expense-items-card-items-premium h2,
+.expense-items-card-items-premium div {
+  margin-left: 2rem;
+  margin-right: 1.5rem;
+}
+.expense-items-card-items-premium:hover {
+  background-color: rgb(138, 128, 128);
+  border: 1px solid rgb(138, 128, 128);
+  color: white;
+}
+
+.close-card-btn {
+  font-size: 1.6rem;
+  margin: 0.2rem;
+  background: transparent;
+  border: 1.5px solid red;
+  border-radius: 10px;
+  color: red;
+}
+
+.close-card-btn:hover {
+  background: red;
+  color: white;
 }

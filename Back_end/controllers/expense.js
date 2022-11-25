@@ -1,4 +1,5 @@
 const Expense = require("../models/expense.js");
+const User = require("../models/user.js");
 
 // Add an expense
 
@@ -52,4 +53,30 @@ exports.deleteExpense = (req, res, next) => {
 exports.isPremium = (req, res, next) => {
   console.log(req.user.isPremium, "this is user");
   res.status(200).json({ success: true, status: req.user.isPremium });
+};
+
+exports.allUser = (req, res, next) => {
+  console.log(req.user.id);
+  User.findAll()
+    .then((result) => {
+      // console.log(result);
+      let responseArray = result.filter((item) => item.id != req.user.id);
+
+      res.status(200).json({ responseArray, success: true });
+    })
+    .catch((err) => {
+      console.log(err, "error in getting all user for premium member");
+      res.status(403).json({ success: false, message: "Failed" });
+    });
+};
+
+exports.getSingleUser = (req, res, next) => {
+  // console.log(req.params.userID);
+  Expense.findAll({ where: { userId: req.params.userID } })
+    .then((result) => {
+      return res.status(200).json({ result, success: true });
+    })
+    .catch((err) => {
+      return res.status(403).json({ err, success: false });
+    });
 };

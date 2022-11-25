@@ -45,7 +45,7 @@ window.addEventListener("DOMContentLoaded", async () => {
 
   if (isPremium.data.status) {
     changeTheme();
-    // premiumFeature()
+    premiumFeature();
   }
   let allExpense = await axios.get("http://localhost:3000/getAllExpense", {
     headers: { Authorization: token },
@@ -172,6 +172,87 @@ logOutBtn.addEventListener("click", () => {
   window.location.href = "./login.html";
 });
 
-function premiumFeature(){
-  
+async function premiumFeature() {
+  let token = localStorage.getItem("token");
+  let allUser = await axios.get("http://localhost:3000/allUser", {
+    headers: { Authorization: token },
+  });
+
+  const ul = document.querySelector(".user-list-ul");
+  ul.innerHTML = "";
+  allUser.data.responseArray.forEach((item) => {
+    // console.log(item.id);
+    let li = document.createElement("li");
+    li.innerText = item.name;
+    let spanID = document.createElement("span");
+    spanID.innerText = item.id;
+
+    spanID.setAttribute("id", `${item.id}`);
+
+    li.appendChild(spanID);
+    ul.append(li);
+
+    li.addEventListener("click", () => {
+      let id = document.getElementById(`${item.id}`);
+      // console.log(id, "this is the id of user");
+
+      //function to call another user expenses using their userID stored in attribute "id"
+      premiumUserExpense(id);
+    });
+  });
+}
+
+async function premiumUserExpense(id) {
+  console.log(id.innerText);
+  let userID = id.innerText;
+  const url = `http://localhost:3000/user/${userID}`;
+  let token = localStorage.getItem("token");
+  let response = await axios.get(url, { headers: { Authorization: token } });
+  console.log(response);
+  let userCard = document.getElementById("expense-anotherUser-card");
+  userCard.style.visibility = "visible";
+
+  let body = document.querySelector(".main-body");
+  body.style.opacity = "0.4";
+
+  let closeBtn = document.querySelector(".close-card-btn");
+  closeBtn.addEventListener("click", () => {
+    userCard.style.visibility = "hidden";
+    body.style.opacity = "1";
+  });
+
+  let htmlDiv = document.querySelector(".list");
+  response.data.result.forEach((item) => {
+    // console.log(item);
+    // let id = item.id;
+    let amount = item.amount;
+    let description = item.description;
+    let category = item.category;
+
+    let h2Amount = document.createElement("h2");
+    let spanAmount = document.createElement("span");
+    h2Amount.innerText = "Amount - ";
+    spanAmount.innerText = amount;
+    h2Amount.appendChild(spanAmount);
+
+    let divCategory = document.createElement("div");
+    let spanCategory = document.createElement("span");
+    divCategory.innerText = "Category  - ";
+    spanCategory.innerText = category;
+    divCategory.appendChild(spanCategory);
+
+    let divDescription = document.createElement("div");
+    let spanDescription = document.createElement("span");
+    divDescription.innerText = "Description - ";
+    spanDescription.innerText = description;
+    divDescription.appendChild(spanDescription);
+
+    let parentDiv = document.createElement("div");
+    parentDiv.classList = "expense-items-card-items-premium";
+    parentDiv.appendChild(h2Amount);
+    parentDiv.appendChild(divCategory);
+    parentDiv.appendChild(divDescription);
+
+    htmlDiv.appendChild(parentDiv);
+  });
 }

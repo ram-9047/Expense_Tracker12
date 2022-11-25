@@ -19,4 +19,10 @@ router.post(
 // user is premium or not
 router.get("/checkStatus", auth.authenticate, expenseController.isPremium);
 
+// get all users name --> premium feature
+router.get("/allUser", auth.authenticate, expenseController.allUser);
+
+//get other user expense details if the current user is premium user
+router.get("/user/:userID", auth.authenticate, expenseController.getSingleUser);
+
 module.exports = router;

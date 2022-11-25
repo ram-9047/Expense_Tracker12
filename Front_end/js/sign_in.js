@@ -15,13 +15,10 @@ form1.addEventListener("submit", async (e) => {
       });
       // console.log(res.data.user[0].isPremium, "response form backend");
       if (res.status == 200) {
-        // console.log("200");
         let token = res.data.token;
         console.log(token);
         localStorage.setItem("token", `${token}`);
-        // if (res.data.user[0].isPremium == true) {
-        //   alert("User is premium");
-        // }
+
         window.location.href = "./expense.html";
       }
     } catch (error) {

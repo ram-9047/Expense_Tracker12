@@ -87,6 +87,9 @@ body {
   margin-top: 2.8rem;
   font-size: 1rem;
 }
+.login-card-fotter a:hover {
+  color: green;
+}
 
 .login-card input[type="text"],
 .login-card input[type="password"],
@@ -105,22 +108,34 @@ body {
   background: white;
 }
 
-.login-card-form button {
+.login-card-form button,
+.reset-password-btn {
   background: black;
   color: white;
   padding: 1rem;
   border-radius: 4rem;
-  border: 1px solid transparent;
+  border: 2px solid transparent;
   text-transform: uppercase;
   letter-spacing: 0.15rem;
-  /* transition: background 0.5s; */
 }
 
-.login-card-form button:hover {
-  background: rgba(0, 0, 0, 0.85);
+.login-card-form button:hover,
+.reset-password-btn:hover {
+  background: transparent;
+  color: black;
+  border: 2px solid black;
   cursor: pointer;
 }
-
+.reset-password-btn {
+  width: 25rem;
+  margin-top: 1.2rem;
+}
+.forgot-password a {
+  margin-left: 1.2rem;
+}
+.forgot-password a:hover {
+  color: rgb(240, 34, 34);
+}
 /* ***************************---------------------************** */
 
 /* ***************************---------------------************** */
@@ -336,4 +351,8 @@ body {
 .close-card-btn:hover {
   background: red;
   color: white;
+}
+.reset-password,
+.reset-password-btn {
+  display: none;
 }

@@ -79,3 +79,48 @@ exports.login = async (req, res, next) => {
       res.status(404).json({ message: "User not found" });
     });
 };
+
+exports.findUser = (req, res, next) => {
+  // console.log(req);
+  User.findAll({ where: { email: req.body.email } })
+    .then((result) => {
+      let x = JSON.stringify(result[0]["id"]);
+      console.log(x);
+      return res.status(200).json({ success: true, id: x });
+    })
+    .catch((err) => {
+      console.log(err, "error in finding user");
+      return res
+        .status(400)
+        .json({ success: false, message: "User Not Found" });
+    });
+};
+
+exports.resetPassword = async (req, res, next) => {
+  // console.log(req.body, "this is reset password");
+  let id = req.body.userId;
+  let email = req.body.email;
+  let newPassword = req.body.newPassword;
+
+  bcrypt.genSalt(saltRound, (err, newSalt) => {
+    bcrypt.hash(newPassword, newSalt, async (err, newHashPassword) => {
+      if (err) {
+        console.log(err);
+      } else {
+        try {
+          await User.update(
+            { password: `${newHashPassword}` },
+            {
+              where: {
+                id,
+              },
+            }
+          );
+          console.log(newHashPassword);
+        } catch (error) {
+          console.log(error, "error in setting new password");
+        }
+      }
+    });
+  });
+};

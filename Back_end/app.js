@@ -10,11 +10,13 @@ const app = express();
 const userRoutes = require("./routes/user.js");
 const expenseRoutes = require("./routes/expense.js");
 const premiumRoutes = require("./routes/purchase.js");
+const forgotPasswordRoutes = require("./routes/forgotPassword.js");
 
 //Models Import
 const User = require("./models/user.js");
 const Expense = require("./models/expense.js");
 const Order = require("./models/purchase.js");
+const ForgotPassword = require("./models/forgotPassword.js");
 
 app.use(bodyParser.json());
 app.use(cors());
@@ -27,9 +29,13 @@ Expense.belongsTo(User);
 User.hasMany(Order);
 Order.belongsTo(User);
 
+User.hasMany(ForgotPassword);
+ForgotPassword.belongsTo(User);
+
 app.use(userRoutes);
 app.use(expenseRoutes);
 app.use(premiumRoutes);
+app.use(forgotPasswordRoutes);
 
 const port = 3000;
 

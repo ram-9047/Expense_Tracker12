@@ -9,9 +9,9 @@ router.post("/signup", userController.signup);
 router.post("/login", userController.login);
 
 //forgot password -- find user
-router.post("/findUser", userController.findUser);
+// router.post("/findUser", userController.findUser);
 
 //forgot password -- update password
-router.post("/resetPassword", userController.resetPassword);
+// router.post("/resetPassword", userController.resetPassword);
 
 module.exports = router;

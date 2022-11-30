@@ -80,6 +80,7 @@ exports.login = async (req, res, next) => {
     });
 };
 
+///////------------ Reset Password Manually-----------------------/////////////
 exports.findUser = (req, res, next) => {
   // console.log(req);
   User.findAll({ where: { email: req.body.email } })

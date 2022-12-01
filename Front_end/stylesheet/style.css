@@ -352,7 +352,50 @@ body {
   background: red;
   color: white;
 }
+
+.expense-header-report,
 .reset-password,
 .reset-password-btn {
   display: none;
+}
+/* ***************************---------------------************** */
+
+/* ***************************---------------------************** */
+
+/* ***************************---------------------************** */
+
+/* ***************************---------------------************** */
+
+/* ***************************---------------------************** */
+
+/* ***************************---------------------************** */
+
+/* ***************************---------------------************** */
+
+/* ***************************---------------------************** */
+/* --------------------daily Tracker css-------------------------- */
+
+.tracker-header {
+  font-size: 3rem;
+  text-align: center;
+  padding: 4rem 0;
+  color: white;
+}
+
+.daily-expense-table {
+  text-align: center;
+  margin-left: 30rem;
+}
+
+.daily-expense-table-row-heading {
+  border-bottom: 1px solid aquamarine;
+  /* background-color: aqua; */
+  padding: 2.2rem;
+  font-size: 1.3rem;
+}
+
+.daily-expense-table-row-item {
+  padding: 1.3rem;
+  color: white;
+  font-size: 1.2rem;
 }

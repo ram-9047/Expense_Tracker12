@@ -2,6 +2,12 @@ const form = document.querySelector(".expense-card-form");
 // console.log(form)
 const logOutBtn = document.querySelector(".footer").childNodes[1];
 // console.log(logOutBtn);
+
+let dailyReportBtn = document.querySelector(".expense-header-report");
+dailyReportBtn.addEventListener("click", () => {
+  window.location = "./dailyTracker.html";
+});
+
 // Add Expenses
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -35,8 +41,10 @@ form.addEventListener("submit", async (e) => {
   }
 });
 
-// Get All Expenses
-window.addEventListener("DOMContentLoaded", async () => {
+// window.addEventListener("DOMContentLoaded", onLoadFunction);
+// // Get All Expenses
+
+const onLoadFunction = async () => {
   let token = localStorage.getItem("token");
   // console.log(token);
   let isPremium = await axios.get("http://localhost:3000/checkStatus", {
@@ -46,6 +54,7 @@ window.addEventListener("DOMContentLoaded", async () => {
   if (isPremium.data.status) {
     changeTheme();
     premiumFeature();
+    dailyReportBtn.style.display = "inline";
   }
   let allExpense = await axios.get("http://localhost:3000/getAllExpense", {
     headers: { Authorization: token },
@@ -94,7 +103,9 @@ window.addEventListener("DOMContentLoaded", async () => {
   } else {
     alert("Error in Loading");
   }
-});
+};
+
+window.addEventListener("DOMContentLoaded", onLoadFunction);
 
 // Delete an Expense
 function deleteExpense(id) {
@@ -102,7 +113,8 @@ function deleteExpense(id) {
 }
 
 // Buy premium member
-let premiumBtn = document.querySelector(".expense-header").childNodes[1];
+let premiumBtn = document.querySelector(".expense-header").children[0];
+console.log(dailyReportBtn);
 premiumBtn.addEventListener("click", async (e) => {
   alert("premium member");
   let token = localStorage.getItem("token");
@@ -137,6 +149,7 @@ premiumBtn.addEventListener("click", async (e) => {
         .then(() => {
           alert("You are a Premium User Now");
           changeTheme();
+          onLoadFunction();
         })
         .catch(() => {
           alert("Something went wrong. Try Again!!!");

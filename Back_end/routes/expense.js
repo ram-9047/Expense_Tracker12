@@ -28,4 +28,14 @@ router.get("/user/:userID", auth.authenticate, expenseController.getSingleUser);
 
 
 
+//download current expenses
+router.get(
+  "/downloadExpense",
+  auth.authenticate,
+  expenseController.downloadAllExpense
+);
+
+// download all expenses
+router.get("/get-all-downloads", auth.authenticate);
+
 module.exports = router;

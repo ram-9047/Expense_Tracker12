@@ -4,8 +4,17 @@ const logOutBtn = document.querySelector(".footer").childNodes[1];
 // console.log(logOutBtn);
 
 let dailyReportBtn = document.querySelector(".expense-header-report");
-dailyReportBtn.addEventListener("click", () => {
-  window.location = "./dailyTracker.html";
+dailyReportBtn.addEventListener("click", async () => {
+  let token = localStorage.getItem("token");
+  let res = await axios.get("http://localhost:3000/downloadExpense", {
+    headers: {
+      Authorization: token,
+    },
+  });
+  // console.log(res, "response of daily report");
+  if (res.status == 200) {
+    window.location.href = res.data.fileURL;
+  }
 });
 
 // Add Expenses
@@ -14,7 +23,6 @@ form.addEventListener("submit", async (e) => {
   const amount = document.querySelector(".amount").value;
   const description = document.querySelector(".description").value;
   const category = document.getElementById("category").value;
-  //   console.log(amount.value, description.value, category.value);
   if (amount == "") {
     alert("Enter the amount");
   } else if (description == "") {
@@ -114,7 +122,7 @@ function deleteExpense(id) {
 
 // Buy premium member
 let premiumBtn = document.querySelector(".expense-header").children[0];
-console.log(dailyReportBtn);
+// console.log(dailyReportBtn);
 premiumBtn.addEventListener("click", async (e) => {
   alert("premium member");
   let token = localStorage.getItem("token");

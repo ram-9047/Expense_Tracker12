@@ -46,6 +46,9 @@ form.addEventListener("submit", async (e) => {
       { headers: { Authorization: token } }
     );
     console.log(res);
+    if (res.status == 201) {
+      onLoadFunction();
+    }
   }
 });
 
@@ -64,14 +67,82 @@ const onLoadFunction = async () => {
     premiumFeature();
     dailyReportBtn.style.display = "inline";
   }
-  let allExpense = await axios.get("http://localhost:3000/getAllExpense", {
-    headers: { Authorization: token },
-  });
+  let allExpense = await axios.get(
+    "http://localhost:3000/getAllExpense/?page=1",
+    {
+      headers: { Authorization: token },
+    }
+  );
+  console.log(allExpense);
+
+  pagination(allExpense);
+
+  showAllExpense(allExpense);
+};
+
+function pagination(allExpense) {
+  let pageDiv = document.querySelector(".pagination");
+  pageDiv.innerHTML = "";
+  let response = allExpense.data;
+
+  if (response.previousPage !== 1 && response.currentPage !== 1) {
+    pageDiv.innerHTML += `
+            <button>${1}</button>
+        `;
+    pageDiv.innerHTML += "<<";
+  }
+
+  if (response.hasPreviousPage) {
+    pageDiv.innerHTML += `
+            <button>${response.previousPage}</button>
+        `;
+  }
+
+  pageDiv.innerHTML += `
+        <button class="active">${response.currentPage}</button>
+    `;
+
+  if (response.hasNextPage) {
+    pageDiv.innerHTML += `
+            <button>${response.nextPage}</button>
+        `;
+  }
+
+  if (
+    response.currentPage !== response.lastPage &&
+    response.nextPage !== response.lastPage &&
+    response.lastPage !== null
+  ) {
+    pageDiv.innerHTML += ">>";
+    pageDiv.innerHTML += `
+            <button>${response.lastPage}</button>
+        `;
+  }
+}
+
+document.querySelector(".pagination").onclick = async (e) => {
+  console.log(e.target);
+  const page = e.target.innerHTML;
+  let token = localStorage.getItem("token");
+  let allExpense = await axios.get(
+    `http://localhost:3000/getAllExpense/?page=${page}`,
+    {
+      headers: { Authorization: token },
+    }
+  );
+  console.log(allExpense);
+
+  pagination(allExpense);
+
+  showAllExpense(allExpense);
+};
+
+function showAllExpense(allExpense) {
   let htmlDiv = document.querySelector(".expense-items-card");
-  // htmlDiv.innerHTML = "";
+  htmlDiv.innerHTML = "";
   if (allExpense.status == 200) {
     // console.log(allExpense.data.result, "all expense");
-    let expenseArr = allExpense.data.result;
+    let expenseArr = allExpense.data.expenses;
     expenseArr.forEach((item) => {
       // console.log(item);
       let id = item.id;
@@ -111,7 +182,7 @@ const onLoadFunction = async () => {
   } else {
     alert("Error in Loading");
   }
-};
+}
 
 window.addEventListener("DOMContentLoaded", onLoadFunction);
 

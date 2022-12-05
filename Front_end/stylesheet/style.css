@@ -225,6 +225,41 @@ body {
   border-radius: 10px;
 }
 
+.expense-items-card {
+  height: 20rem;
+  /* background-color: gray; */
+  /* border: 1px solid gray; */
+  border-radius: 10px;
+  width: 50rem;
+  margin-top: 2rem;
+  margin-left: 20rem;
+  position: fixed;
+}
+
+/* .expense-items-card-pagination {
+  position: absolute;
+  margin-left: 21rem;
+  margin-top: 17.2rem;
+}
+
+.expense-items-card-pagination button {
+  padding: 0.5rem 1rem;
+  font-size: 1.2rem;
+  border: 2px solid red;
+  color: white;
+}
+.expense-items-card-pagination button:hover {
+  color: white;
+  background-color: transparent;
+  border: 2px solid white;
+} */
+
+.pagination button {
+  padding: 1rem 1.2rem;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
 .expense-items-card-items {
   border: 1px solid white;
   border-radius: 12px;
@@ -234,7 +269,7 @@ body {
   padding: 1rem 1.2rem;
   margin-top: 0.8rem;
   margin-bottom: 0.8rem;
-  margin-left: 24rem;
+  margin-left: 4rem;
 }
 .expense-items-card-items:hover {
   background-color: rgb(138, 128, 128);

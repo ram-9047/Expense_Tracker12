@@ -2,6 +2,7 @@ const Expense = require("../models/expense.js");
 const User = require("../models/user.js");
 const AWS = require("aws-sdk");
 
+const itemsPerPage = 3;
 // Add an expense
 
 exports.addExpense = (req, res, next) => {
@@ -25,17 +26,47 @@ exports.addExpense = (req, res, next) => {
 // Get all Expense of user
 
 exports.getExpense = (req, res, next) => {
-  // console.log(req.user.id);
+  // console.log(req.query);
+  let currentPage = +req.query.page;
+  let totalItems;
+  let lastPage;
   Expense.findAll({ where: { userId: req.user.id } })
     .then((result) => {
-      return res.status(200).json({ result, success: true });
+      // console.log(result.length);
+      totalItems = result.length;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+
+  req.user
+    .getExpenses({
+      offset: (currentPage - 1) * itemsPerPage,
+      limit: itemsPerPage,
+    })
+    .then((limitExpense) => {
+      // console.log(limitExpense);
+      let lastPage = Math.ceil(totalItems / itemsPerPage);
+      if (lastPage == 0) {
+        lastPage = 1;
+      }
+      res.status(200).json({
+        expenses: limitExpense,
+        totalExpensesLength: totalItems,
+        currentPage: currentPage,
+        hasNextPage: currentPage * itemsPerPage < totalItems,
+        hasPreviousPage: currentPage > 1,
+        nextPage: currentPage + 1,
+        previousPage: currentPage - 1,
+        lastPage: lastPage,
+      });
     })
     .catch((err) => {
       return res.status(403).json({ err, success: false });
     });
 };
 
-// Delete ans expense
+// Delete an expense
 
 exports.deleteExpense = (req, res, next) => {
   const expenseID = req.params.id;
@@ -52,7 +83,7 @@ exports.deleteExpense = (req, res, next) => {
 };
 
 exports.isPremium = (req, res, next) => {
-  console.log(req.user.isPremium, "this is user");
+  // console.log(req.user.isPremium, "this is user");
   res.status(200).json({ success: true, status: req.user.isPremium });
 };
 
@@ -103,13 +134,8 @@ function uploadToS3(data, fileName) {
   return new Promise((result, reject) => {
     s2Bucket.upload(params, (err, response) => {
       if (err) {
-        console.log(err, "error in uploading data to s2");
         reject(err);
       } else {
-        // console.log(response, "response after uploading data");
-        // console.log(response.Location);
-        // x = response.Location;
-        // return response;
         result(response.Location);
       }
     });

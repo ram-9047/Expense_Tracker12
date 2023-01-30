@@ -35,17 +35,19 @@ form.addEventListener("submit", async (e) => {
       description,
       category,
     };
+
     amount.value = "";
     description.value = "";
     category.value = "";
+
     let token = localStorage.getItem("token");
-    console.log(token);
+    // console.log(token);
     let res = await axios.post(
       "http://localhost:3000/addExpense",
       resultObject,
       { headers: { Authorization: token } }
     );
-    console.log(res);
+    // console.log(res);
     if (res.status == 201) {
       onLoadFunction();
     }
@@ -58,8 +60,14 @@ form.addEventListener("submit", async (e) => {
 const onLoadFunction = async () => {
   let token = localStorage.getItem("token");
   // console.log(token);
+  let rows = localStorage.getItem("rowsPerPage");
+  // console.log(rows);
+  if (rows == null) {
+    rows = 3;
+  }
+
   let isPremium = await axios.get("http://localhost:3000/checkStatus", {
-    headers: { Authorization: token },
+    headers: { Authorization: token, Rows: rows },
   });
 
   if (isPremium.data.status) {
@@ -70,7 +78,7 @@ const onLoadFunction = async () => {
   let allExpense = await axios.get(
     "http://localhost:3000/getAllExpense/?page=1",
     {
-      headers: { Authorization: token },
+      headers: { Authorization: token, Rows: rows },
     }
   );
   console.log(allExpense);
@@ -121,13 +129,18 @@ function pagination(allExpense) {
 }
 
 document.querySelector(".pagination").onclick = async (e) => {
-  console.log(e.target);
+  // console.log(e.target);
   const page = e.target.innerHTML;
   let token = localStorage.getItem("token");
+
+  let rows = localStorage.getItem("rowsPerPage");
+  if (rows == null) {
+    rows = 3;
+  }
   let allExpense = await axios.get(
     `http://localhost:3000/getAllExpense/?page=${page}`,
     {
-      headers: { Authorization: token },
+      headers: { Authorization: token, Rows: rows },
     }
   );
   console.log(allExpense);
@@ -197,8 +210,12 @@ let premiumBtn = document.querySelector(".expense-header").children[0];
 premiumBtn.addEventListener("click", async (e) => {
   alert("premium member");
   let token = localStorage.getItem("token");
+  let rows = localStorage.getItem("rowsPerPage");
+  if (rows == null) {
+    rows = 3;
+  }
   const response = await axios.get("http://localhost:3000/premium", {
-    headers: { Authorization: token },
+    headers: { Authorization: token, Rows: rows },
   });
   console.log(response);
   var options = {
@@ -266,37 +283,42 @@ logOutBtn.addEventListener("click", () => {
 
 async function premiumFeature() {
   let token = localStorage.getItem("token");
+  let rows = localStorage.getItem("rowsPerPage");
+  if (rows == null) {
+    rows = 3;
+  }
   let allUser = await axios.get("http://localhost:3000/allUser", {
-    headers: { Authorization: token },
+    headers: { Authorization: token, Rows: rows },
   });
 
   const ul = document.querySelector(".user-list-ul");
   ul.innerHTML = "";
   allUser.data.responseArray.forEach((item) => {
-    // console.log(item.id);
+    console.log(item._id);
     let li = document.createElement("li");
     li.innerText = item.name;
     let spanID = document.createElement("span");
-    spanID.innerText = item.id;
+    // spanID.innerText = item._id;
 
-    spanID.setAttribute("id", `${item.id}`);
+    spanID.setAttribute("id", `${item._id}`);
 
     li.appendChild(spanID);
     ul.append(li);
 
     li.addEventListener("click", () => {
-      let id = document.getElementById(`${item.id}`);
-      // console.log(id, "this is the id of user");
+      let id = document.getElementById(`${item._id}`);
+      console.log(id, "this is the id of user");
 
       //function to call another user expenses using their userID stored in attribute "id"
-      premiumUserExpense(id);
+      // premiumUserExpense(id);
     });
   });
 }
 
 async function premiumUserExpense(id) {
-  console.log(id.innerText);
+  console.log(id, "id");
   let userID = id.innerText;
+  console.log(userID);
   const url = `http://localhost:3000/user/${userID}`;
   let token = localStorage.getItem("token");
   let response = await axios.get(url, { headers: { Authorization: token } });
@@ -348,3 +370,8 @@ async function premiumUserExpense(id) {
     htmlDiv.appendChild(parentDiv);
   });
 }
+
+document.getElementById("rows-per-page").onchange = (e) => {
+  // console.log(e.target.value);
+  localStorage.setItem("rowsPerPage", e.target.value);
+};

@@ -13,6 +13,7 @@ form1.addEventListener("submit", async (e) => {
         email,
         password,
       });
+      console.log(res, "this is res from backend");
       // console.log(res.data.user[0].isPremium, "response form backend");
       if (res.status == 200) {
         let token = res.data.token;
